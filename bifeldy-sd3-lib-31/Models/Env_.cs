@@ -39,7 +39,7 @@ namespace bifeldy_sd3_lib_31.Models {
         private string kunci = null;
         public string KUNCI {
             get {
-                string kunciEnv = GetEnvVar("KUNCI");
+                string kunciEnv = GetEnvVar("KUNCI_GXXX");
                 if (!string.IsNullOrEmpty(kunciEnv)) {
                     kunci = kunciEnv;
                 }
