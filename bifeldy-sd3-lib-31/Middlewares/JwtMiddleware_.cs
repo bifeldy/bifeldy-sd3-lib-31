@@ -60,7 +60,7 @@ namespace bifeldy_sd3_lib_31.Middlewares {
             else {
                 try {
                     JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-                    byte[] key = Encoding.ASCII.GetBytes(_env.KUNCI);
+                    byte[] key = Encoding.ASCII.GetBytes(_env.KUNCI_GXXX);
 
                     tokenHandler.ValidateToken(jwt, new TokenValidationParameters {
                         ValidateIssuerSigningKey = true,

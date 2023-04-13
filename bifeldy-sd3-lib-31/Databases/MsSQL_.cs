@@ -54,10 +54,10 @@ namespace bifeldy_sd3_lib_31.Databases {
         }
 
         private void InitializeMsSqlDatabase(string dbIpAddrss = null, string dbUsername = null, string dbPassword = null, string dbName = null) {
-            DbIpAddrss = dbIpAddrss ?? _app.GetVariabel("IPSql", _env.KUNCI);
-            DbUsername = dbUsername ?? _app.GetVariabel("UserSql", _env.KUNCI);
-            DbPassword = dbPassword ?? _app.GetVariabel("PasswordSql", _env.KUNCI);
-            DbName = dbName ?? _app.GetVariabel("DatabaseSql", _env.KUNCI);
+            DbIpAddrss = dbIpAddrss ?? _app.GetVariabel("IPSql", _env.KUNCI_GXXX);
+            DbUsername = dbUsername ?? _app.GetVariabel("UserSql", _env.KUNCI_GXXX);
+            DbPassword = dbPassword ?? _app.GetVariabel("PasswordSql", _env.KUNCI_GXXX);
+            DbName = dbName ?? _app.GetVariabel("DatabaseSql", _env.KUNCI_GXXX);
         }
 
         private void SettingUpDatabase() {

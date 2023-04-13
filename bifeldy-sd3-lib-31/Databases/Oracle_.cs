@@ -54,9 +54,9 @@ namespace bifeldy_sd3_lib_31.Databases {
         }
 
         private void InitializeOracleDatabase(string dbUsername = null, string dbPassword = null, string dbTnsOdp = null) {
-            DbUsername = dbUsername ?? _app.GetVariabel("UserOrcl", _env.KUNCI);
-            DbPassword = dbPassword ?? _app.GetVariabel("PasswordOrcl", _env.KUNCI);
-            string _dbTnsOdp = dbTnsOdp ?? _app.GetVariabel("ODPOrcl", _env.KUNCI);
+            DbUsername = dbUsername ?? _app.GetVariabel("UserOrcl", _env.KUNCI_GXXX);
+            DbPassword = dbPassword ?? _app.GetVariabel("PasswordOrcl", _env.KUNCI_GXXX);
+            string _dbTnsOdp = dbTnsOdp ?? _app.GetVariabel("ODPOrcl", _env.KUNCI_GXXX);
             if (!string.IsNullOrEmpty(_dbTnsOdp)) {
                 _dbTnsOdp = Regex.Replace(_dbTnsOdp, @"\s+", "");
             }

@@ -36,17 +36,17 @@ namespace bifeldy_sd3_lib_31.Models {
             } 
         }
 
-        private string kunci = null;
-        public string KUNCI {
+        private string kunci_gxxx = null;
+        public string KUNCI_GXXX {
             get {
                 string kunciEnv = GetEnvVar("KUNCI_GXXX");
                 if (!string.IsNullOrEmpty(kunciEnv)) {
-                    kunci = kunciEnv;
+                    kunci_gxxx = kunciEnv;
                 }
-                return kunci;
+                return kunci_gxxx;
             }
             set {
-                kunci = value;
+                kunci_gxxx = value;
             }
         }
 

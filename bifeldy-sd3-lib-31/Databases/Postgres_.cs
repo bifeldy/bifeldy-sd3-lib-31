@@ -58,11 +58,11 @@ namespace bifeldy_sd3_lib_31.Databases {
         }
 
         private void InitializePostgresDatabase(string dbIpAddrss = null, string dbPort = null, string dbUsername = null,  string dbPassword = null, string dbName = null) {
-            DbIpAddrss = dbIpAddrss ?? _app.GetVariabel("IPPostgres", _env.KUNCI);
-            DbPort = dbPort ?? _app.GetVariabel("PortPostgres", _env.KUNCI);
-            DbUsername = dbUsername ?? _app.GetVariabel("UserPostgres", _env.KUNCI);
-            DbPassword = dbPassword ?? _app.GetVariabel("PasswordPostgres", _env.KUNCI);
-            DbName = dbName ?? _app.GetVariabel("DatabasePostgres", _env.KUNCI);
+            DbIpAddrss = dbIpAddrss ?? _app.GetVariabel("IPPostgres", _env.KUNCI_GXXX);
+            DbPort = dbPort ?? _app.GetVariabel("PortPostgres", _env.KUNCI_GXXX);
+            DbUsername = dbUsername ?? _app.GetVariabel("UserPostgres", _env.KUNCI_GXXX);
+            DbPassword = dbPassword ?? _app.GetVariabel("PasswordPostgres", _env.KUNCI_GXXX);
+            DbName = dbName ?? _app.GetVariabel("DatabasePostgres", _env.KUNCI_GXXX);
         }
 
         private void SettingUpDatabase() {

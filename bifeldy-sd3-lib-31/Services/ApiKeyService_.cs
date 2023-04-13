@@ -11,7 +11,7 @@ namespace bifeldy_sd3_lib_31.Services {
         public CApiKeyService() { }
 
         public async Task<bool> CheckKeyOrigin(string ipOrigin, string apiKey) {
-            return false;
+            return true;
         }
 
     }
