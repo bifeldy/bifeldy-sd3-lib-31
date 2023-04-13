@@ -28,7 +28,7 @@
 
   <ItemGroup>
     <Reference Include="SettingLibb">
-      <HintPath>..\..\..\..\Bifeldy\_sources\SettingLibb\SettingLibb\bin\Release\SettingLibb.dll</HintPath>
+      <HintPath>Libraries\SettingLibb.dll</HintPath>
     </Reference>
   </ItemGroup>
 
