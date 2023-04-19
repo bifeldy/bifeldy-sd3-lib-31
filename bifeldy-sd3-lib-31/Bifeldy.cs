@@ -112,7 +112,23 @@ namespace bifeldy_sd3_lib_31 {
 
         public static void UseSwagger(string apiUrlPrefix) {
             App.UseSwagger(c => {
-                c.RouteTemplate = "{documentName}/swagger.json";
+                c.RouteTemplate = "{documentName}/swagger.json"
+                c.PreSerializeFilters.Add((swaggerDoc, request) => {
+                    List<OpenApiServer> openApiServers = new List<OpenApiServer>() {
+                        new OpenApiServer() {
+                            Description = "Direct IP Server",
+                            Url = "/"
+                        }
+                    };
+                    string proxyPath = request.Headers["X-Forwarded-Prefix"];
+                    if (!string.IsNullOrEmpty(proxyPath)) {
+                        openApiServers.Add(new OpenApiServer() {
+                            Description = "Reverse Proxy Path",
+                            Url = proxyPath.StartsWith("/") || proxyPath.StartsWith("http") ? proxyPath : $"/{proxyPath}"
+                        });
+                    }
+                    swaggerDoc.Servers = openApiServers;
+                });
             });
             App.UseSwaggerUI(c => {
                 c.RoutePrefix = apiUrlPrefix ?? "api";
