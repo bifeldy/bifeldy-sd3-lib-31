@@ -1,4 +1,17 @@
-﻿using System;
+﻿/**
+ * 
+ * Author       :: Basilius Bias Astho Christyono
+ * Phone        :: (+62) 889 236 6466
+ * 
+ * Department   :: IT SD 03
+ * Mail         :: bias@indomaret.co.id
+ * 
+ * Catatan      :: Middleware JWT
+ *              :: Harap Didaftarkan Ke DI Container
+ * 
+ */
+
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
@@ -52,9 +65,8 @@ namespace bifeldy_sd3_lib_31.Middlewares {
                 jwt = request.Query["token"];
             }
 
-            context.Items["user"] = null;
-
             if (string.IsNullOrEmpty(jwt)) {
+                context.Items["user"] = null;
                 await _next(context);
             }
             else {
@@ -71,7 +83,7 @@ namespace bifeldy_sd3_lib_31.Middlewares {
                     }, out SecurityToken validatedToken);
 
                     JwtSecurityToken jwtToken = (JwtSecurityToken) validatedToken;
-                    var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
+                    int userId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
 
                     context.Items["user"] = await _us.GetById(userId);
                     await _next(context);

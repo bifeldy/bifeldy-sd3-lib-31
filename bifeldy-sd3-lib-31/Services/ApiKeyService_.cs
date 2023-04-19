@@ -1,4 +1,24 @@
-﻿using System.Threading.Tasks;
+﻿/**
+ * 
+ * Author       :: Basilius Bias Astho Christyono
+ * Mail         :: bias@indomaret.co.id
+ * Phone        :: (+62) 889 236 6466
+ * 
+ * Department   :: IT SD 03
+ * Mail         :: bias@indomaret.co.id
+ * 
+ * Catatan      :: Koneksi Ke Database Untuk Cek API Key
+ *              :: Harap Didaftarkan Ke DI Container
+ * 
+ */
+
+using System.Collections.Generic;
+using System.Data;
+using System.Threading.Tasks;
+
+using bifeldy_sd3_lib_31.Handlers;
+using bifeldy_sd3_lib_31.Models;
+using bifeldy_sd3_lib_31.Utilities;
 
 namespace bifeldy_sd3_lib_31.Services {
 
@@ -8,10 +28,24 @@ namespace bifeldy_sd3_lib_31.Services {
 
     public sealed class CApiKeyService : IApiKeyService {
 
-        public CApiKeyService() { }
+        private readonly IGlobalService _gs;
+        private readonly IDbHandler _db;
+        private readonly IConverter _converter;
+
+        public CApiKeyService(IGlobalService gs, IDbHandler db, IConverter converter) {
+            _gs = gs;
+            _db = db;
+            _converter = converter;
+        }
 
         public async Task<bool> CheckKeyOrigin(string ipOrigin, string apiKey) {
-            return true;
+            DataTable dt = await _db.CheckIpOriginKey(ipOrigin, apiKey);
+            List<CMODEL_TABEL_DC_APIKEY_T> ls = _converter.DataTableToList<CMODEL_TABEL_DC_APIKEY_T>(dt);
+            List<string> allowed = new List<string>(_gs.allowedIpOrigin);
+            if (ls.Count == 1) {
+                allowed.Add(ls[0].IP_DOMAIN);
+            }
+            return allowed.Contains(ipOrigin);
         }
 
     }

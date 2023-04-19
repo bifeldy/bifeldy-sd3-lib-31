@@ -8,8 +8,8 @@
  * Mail         :: bias@indomaret.co.id
  * 
  * Catatan      :: Kumpulan Handler Database Bawaan
- *              :: Tidak Untuk Didaftarkan Ke DI Container
- *              :: Hanya Untuk Inherit
+ *              :: Harap Didaftarkan Ke DI Container
+ *              :: Bisa Untuk Inherit
  * 
  */
 
@@ -24,8 +24,9 @@ using Microsoft.Extensions.Options;
 using bifeldy_sd3_lib_31.Databases;
 using bifeldy_sd3_lib_31.Models;
 using bifeldy_sd3_lib_31.Utilities;
+using bifeldy_sd3_lib_31.Abstractions;
 
-namespace bifeldy_sd3_lib_31.Abstractions {
+namespace bifeldy_sd3_lib_31.Handlers {
 
     public interface IDbHandler {
         string LoggedInUsername { get; set; }
@@ -48,9 +49,10 @@ namespace bifeldy_sd3_lib_31.Abstractions {
         COracle NewExternalConnectionOra(string dbIpAddrss, string dbPort, string dbUsername, string dbPassword, string dbNameSid);
         CPostgres NewExternalConnectionPg(string dbIpAddrss, string dbPort, string dbUsername, string dbPassword, string dbName);
         CMsSQL NewExternalConnectionMsSql(string dbIpAddrss, string dbUsername, string dbPassword, string dbName);
+        Task<DataTable> CheckIpOriginKey(string ipOrigin, string apiKey);
     }
 
-    public abstract class CDbHandler : IDbHandler {
+    public class CDbHandler : IDbHandler {
 
         private readonly Env _env;
 
@@ -313,6 +315,25 @@ namespace bifeldy_sd3_lib_31.Abstractions {
 
         public CMsSQL NewExternalConnectionMsSql(string dbIpAddrss, string dbUsername, string dbPassword, string dbName) {
             return MsSql.NewExternalConnection(dbIpAddrss, dbUsername, dbPassword, dbName);
+        }
+
+        public async Task<DataTable> CheckIpOriginKey(string ipOrigin, string apiKey) {
+            return await OraPg.GetDataTableAsync(
+                $@"
+                    SELECT
+                        ip_origin,
+                        key
+                    FROM
+                        dc_apikey_t
+                    WHERE
+                        (ip_origin = :ip_origin AND key = :key) OR
+                        (ip_origin = '*' AND key = :key)
+                ",
+                new List<CDbQueryParamBind> {
+                        new CDbQueryParamBind { NAME = "ip_origin", VALUE = ipOrigin },
+                        new CDbQueryParamBind { NAME = "key", VALUE = apiKey }
+                }
+            );
         }
 
     }

@@ -1,4 +1,17 @@
-﻿using System.IO;
+﻿/**
+ * 
+ * Author       :: Basilius Bias Astho Christyono
+ * Phone        :: (+62) 889 236 6466
+ * 
+ * Department   :: IT SD 03
+ * Mail         :: bias@indomaret.co.id
+ * 
+ * Catatan      :: Middleware API Key
+ *              :: Harap Didaftarkan Ke DI Container
+ * 
+ */
+
+using System.IO;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
@@ -17,18 +30,26 @@ namespace bifeldy_sd3_lib_31.Middlewares {
         private readonly RequestDelegate _next;
         private readonly Env _env;
         private readonly ILogger _logger;
+        private readonly IGlobalService _gs;
         private readonly IApiKeyService _aks;
 
-        public ApiKeyMiddleware(RequestDelegate next, IOptions<Env> env, ILogger logger, IApiKeyService aks) {
+        public ApiKeyMiddleware(RequestDelegate next, IOptions<Env> env, ILogger logger, IGlobalService gs, IApiKeyService aks) {
             _next = next;
             _env = env.Value;
             _logger = logger;
+            _gs = gs;
             _aks = aks;
         }
 
         public async Task Invoke(HttpContext context) {
+            ConnectionInfo connection = context.Connection;
             HttpRequest request = context.Request;
             HttpResponse response = context.Response;
+
+            string uriDomainIp = request.Host.Host;
+            if (!_gs.allowedIpOrigin.Contains(uriDomainIp)) {
+                _gs.allowedIpOrigin.Add(uriDomainIp);
+            }
 
             StreamReader reader = new StreamReader(request.Body);
             RequestJson reqBody = JsonConvert.DeserializeObject<RequestJson>(await reader.ReadToEndAsync());
@@ -47,16 +68,20 @@ namespace bifeldy_sd3_lib_31.Middlewares {
                 apiKey = request.Query["key"];
             }
 
-            string ipOrigin = request.Host.Host;
+            string ipOrigin = connection.RemoteIpAddress.ToString();
             if (!string.IsNullOrEmpty(request.Headers["origin"])) {
                 ipOrigin = request.Headers["origin"];
-            }
-            else if (!string.IsNullOrEmpty(request.Headers["cf-connecting-ip"])) {
-                ipOrigin = request.Headers["cf-connecting-ip"];
             }
             else if (!string.IsNullOrEmpty(request.Headers["referer"])) {
                 ipOrigin = request.Headers["referer"];
             }
+            else if (!string.IsNullOrEmpty(request.Headers["cf-connecting-ip"])) {
+                ipOrigin = request.Headers["cf-connecting-ip"];
+            }
+            else if (!string.IsNullOrEmpty(request.Headers["X-Forwarded-For"])) {
+                ipOrigin = request.Headers["X-Forwarded-For"];
+            }
+            ipOrigin = _gs.CleanIpOrigin(ipOrigin);
 
             context.Items["api_key"] = apiKey;
             _logger.WriteInfo(GetType().Name, $"[API_KEY_IP_ORIGIN] 🌸 {apiKey} @ {ipOrigin}");

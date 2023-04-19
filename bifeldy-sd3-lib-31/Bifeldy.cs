@@ -22,6 +22,7 @@ using bifeldy_sd3_lib_31.Databases;
 using bifeldy_sd3_lib_31.Utilities;
 using bifeldy_sd3_lib_31.Middlewares;
 using bifeldy_sd3_lib_31.Services;
+using bifeldy_sd3_lib_31.Handlers;
 
 namespace bifeldy_sd3_lib_31 {
 
@@ -97,6 +98,9 @@ namespace bifeldy_sd3_lib_31 {
             Services.AddSingleton<IMsSQL, CMsSQL>();
             Services.AddSingleton<IPostgres, CPostgres>();
             // --
+            Services.AddSingleton<IDbHandler, CDbHandler>();
+            // --
+            Services.AddSingleton<IGlobalService, CGlobalService>();
             Services.AddSingleton<IApiKeyService, CApiKeyService>();
             Services.AddSingleton<IUserService, CUserService>();
             Services.AddSingleton<ICryptoService, CCryptoService>();

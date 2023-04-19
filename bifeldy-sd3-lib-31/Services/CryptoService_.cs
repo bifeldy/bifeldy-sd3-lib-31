@@ -1,4 +1,18 @@
-﻿using System;
+﻿/**
+ * 
+ * Author       :: Basilius Bias Astho Christyono
+ * Mail         :: bias@indomaret.co.id
+ * Phone        :: (+62) 889 236 6466
+ * 
+ * Department   :: IT SD 03
+ * Mail         :: bias@indomaret.co.id
+ * 
+ * Catatan      :: Encrypt & Decript JWT
+ *              :: Harap Didaftarkan Ke DI Container
+ * 
+ */
+
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
