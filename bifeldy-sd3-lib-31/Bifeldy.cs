@@ -112,7 +112,7 @@ namespace bifeldy_sd3_lib_31 {
 
         public static void UseSwagger(string apiUrlPrefix) {
             App.UseSwagger(c => {
-                c.RouteTemplate = "{documentName}/swagger.json"
+                c.RouteTemplate = "{documentName}/swagger.json";
                 c.PreSerializeFilters.Add((swaggerDoc, request) => {
                     List<OpenApiServer> openApiServers = new List<OpenApiServer>() {
                         new OpenApiServer() {
