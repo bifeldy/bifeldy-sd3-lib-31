@@ -46,9 +46,13 @@ namespace bifeldy_sd3_lib_31.Middlewares {
             HttpRequest request = context.Request;
             HttpResponse response = context.Response;
 
-            string uriDomainIp = request.Host.Host;
-            if (!_gs.allowedIpOrigin.Contains(uriDomainIp)) {
-                _gs.allowedIpOrigin.Add(uriDomainIp);
+            string ipDomainHost = request.Host.Host;
+            if (!_gs.allowedIpOrigin.Contains(ipDomainHost)) {
+                _gs.allowedIpOrigin.Add(ipDomainHost);
+            }
+            string ipDomainProxy = request.Headers["X-Forwarded-Host"];
+            if (!string.IsNullOrEmpty(ipDomainProxy) && !_gs.allowedIpOrigin.Contains(ipDomainProxy)) {
+                _gs.allowedIpOrigin.Add(ipDomainProxy);
             }
 
             StreamReader reader = new StreamReader(request.Body);

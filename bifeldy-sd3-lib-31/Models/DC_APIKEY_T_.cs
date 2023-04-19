@@ -13,7 +13,7 @@
 namespace bifeldy_sd3_lib_31.Models {
 
     public sealed class CMODEL_TABEL_DC_APIKEY_T {
-        public string IP_DOMAIN { set; get; }
+        public string IP_ORIGIN { set; get; }
         public string KEY { set; get; }
     }
 

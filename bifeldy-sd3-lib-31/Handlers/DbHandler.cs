@@ -326,12 +326,14 @@ namespace bifeldy_sd3_lib_31.Handlers {
                     FROM
                         dc_apikey_t
                     WHERE
-                        (ip_origin = :ip_origin AND key = :key) OR
-                        (ip_origin = '*' AND key = :key)
+                        (ip_origin = :ip_origin_1 AND key = :key_1) OR
+                        (ip_origin = :ip_origin_2 AND key = :key_2)
                 ",
                 new List<CDbQueryParamBind> {
-                        new CDbQueryParamBind { NAME = "ip_origin", VALUE = ipOrigin },
-                        new CDbQueryParamBind { NAME = "key", VALUE = apiKey }
+                    new CDbQueryParamBind { NAME = "ip_origin_1", VALUE = ipOrigin },
+                    new CDbQueryParamBind { NAME = "key_1", VALUE = apiKey },
+                    new CDbQueryParamBind { NAME = "ip_origin_2", VALUE = "*" },
+                    new CDbQueryParamBind { NAME = "key_2", VALUE = apiKey }
                 }
             );
         }

@@ -43,7 +43,8 @@ namespace bifeldy_sd3_lib_31.Services {
             List<CMODEL_TABEL_DC_APIKEY_T> ls = _converter.DataTableToList<CMODEL_TABEL_DC_APIKEY_T>(dt);
             List<string> allowed = new List<string>(_gs.allowedIpOrigin);
             if (ls.Count == 1) {
-                allowed.Add(ls[0].IP_DOMAIN);
+                string ipOriginRec = ls[0].IP_ORIGIN;
+                allowed.Add(ipOriginRec == "*" ? ipOrigin : ipOriginRec);
             }
             return allowed.Contains(ipOrigin);
         }
