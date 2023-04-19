@@ -139,7 +139,7 @@ namespace bifeldy_sd3_lib_31 {
         /* ** */
 
         public static void UseHelmetMiddleware() {
-            // App.UseMiddleware<DontSniffMimetypeMiddleware>();
+            App.UseMiddleware<DontSniffMimetypeMiddleware>();
             App.UseMiddleware<FrameGuardMiddleware>("SAMEORIGIN");
             App.UseMiddleware<HidePoweredByHeaderMiddleware>();
             App.UseMiddleware<IeNoOpenMiddleware>();
