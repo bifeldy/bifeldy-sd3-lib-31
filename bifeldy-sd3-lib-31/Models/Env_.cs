@@ -13,6 +13,9 @@
 */
 
 using System;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace bifeldy_sd3_lib_31.Models {
 
@@ -33,24 +36,72 @@ namespace bifeldy_sd3_lib_31.Models {
             }
             set {
                 isUsingPostgres = value;
-            } 
+            }
         }
 
-        private string kunci_gxxx = null;
-        public string KUNCI_GXXX {
+        private string kunciIpDomain = "localhost";
+        public string KUNCI_IP_DOMAIN {
             get {
-                string kunciEnv = GetEnvVar("KUNCI_GXXX");
-                if (!string.IsNullOrEmpty(kunciEnv)) {
-                    kunci_gxxx = kunciEnv;
+                string kunciIpDomainEnv = GetEnvVar("KUNCI_IP_DOMAIN");
+                if (!string.IsNullOrEmpty(kunciIpDomainEnv)) {
+                    kunciIpDomain = kunciIpDomainEnv;
                 }
-                return kunci_gxxx;
+                return kunciIpDomain;
             }
             set {
-                kunci_gxxx = value;
+                kunciIpDomain = value;
             }
         }
 
-        private int maxOldRetentionDay = 0;
+        private string kunciGxxx = "kuncirest";
+        public string KUNCI_GXXX {
+            get {
+                string kunciGxxxEnv = GetEnvVar("KUNCI_GXXX");
+                if (!string.IsNullOrEmpty(kunciGxxxEnv)) {
+                    kunciGxxx = kunciGxxxEnv;
+                }
+                return kunciGxxx;
+            }
+            set {
+                kunciGxxx = value;
+            }
+        }
+
+        private string infoLogPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Info_Logs");
+        public string INFO_LOG_PATH {
+            get {
+                string infoLogPathEnv = GetEnvVar("INFO_LOG_PATH");
+                if (!string.IsNullOrEmpty(infoLogPathEnv)) {
+                    infoLogPath = infoLogPathEnv;
+                }
+                if (!string.IsNullOrEmpty(infoLogPath) && !RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+                    infoLogPath = infoLogPath.Split(":").LastOrDefault();
+                }
+                return infoLogPath;
+            }
+            set {
+                infoLogPath = value;
+            }
+        }
+
+        private string errorLogPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Error_Logs");
+        public string ERROR_LOG_PATH {
+            get {
+                string errorLogPathEnv = GetEnvVar("ERROR_LOG_PATH");
+                if (!string.IsNullOrEmpty(errorLogPathEnv)) {
+                    errorLogPath = errorLogPathEnv;
+                }
+                if (!string.IsNullOrEmpty(errorLogPath) && !RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+                    errorLogPath = errorLogPath.Split(":").LastOrDefault();
+                }
+                return errorLogPath;
+            }
+            set {
+                errorLogPath = value;
+            }
+        }
+
+        private int maxOldRetentionDay = 14;
         public int MAX_OLD_RETENTION_DAY {
             get {
                 string maxOldRetentionDayEnv = GetEnvVar("MAX_OLD_RETENTION_DAY");
@@ -64,7 +115,75 @@ namespace bifeldy_sd3_lib_31.Models {
             }
         }
 
-        private string apiKeyName = null;
+        private string backupFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Backup_Files");
+        public string BACKUP_FOLDER_PATH {
+            get {
+                string backupFolderPathEnv = GetEnvVar("BACKUP_FOLDER_PATH");
+                if (!string.IsNullOrEmpty(backupFolderPathEnv)) {
+                    backupFolderPath = backupFolderPathEnv;
+                }
+                if (!string.IsNullOrEmpty(backupFolderPath) && !RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+                    backupFolderPath = backupFolderPath.Split(":").LastOrDefault();
+                }
+                return backupFolderPath;
+            }
+            set {
+                backupFolderPath = value;
+            }
+        }
+
+        private string tempFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Temp_Files");
+        public string TEMP_FOLDER_PATH {
+            get {
+                string tempFolderPathEnv = GetEnvVar("TEMP_FOLDER_PATH");
+                if (!string.IsNullOrEmpty(tempFolderPathEnv)) {
+                    tempFolderPath = tempFolderPathEnv;
+                }
+                if (!string.IsNullOrEmpty(tempFolderPath) && !RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+                    tempFolderPath = tempFolderPath.Split(":").LastOrDefault();
+                }
+                return tempFolderPath;
+            }
+            set {
+                tempFolderPath = value;
+            }
+        }
+
+        private string zipFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Zip_Files");
+        public string ZIP_FOLDER_PATH {
+            get {
+                string zipFolderPathEnv = GetEnvVar("ZIP_FOLDER_PATH");
+                if (!string.IsNullOrEmpty(zipFolderPathEnv)) {
+                    zipFolderPath = zipFolderPathEnv;
+                }
+                if (!string.IsNullOrEmpty(zipFolderPath) && !RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+                    zipFolderPath = zipFolderPath.Split(":").LastOrDefault();
+                }
+                return zipFolderPath;
+            }
+            set {
+                zipFolderPath = value;
+            }
+        }
+
+        private string downloadFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Download_Files");
+        public string DOWNLOAD_FOLDER_PATH {
+            get {
+                string downloadFolderPathEnv = GetEnvVar("DOWNLOAD_FOLDER_PATH");
+                if (!string.IsNullOrEmpty(downloadFolderPathEnv)) {
+                    downloadFolderPath = downloadFolderPathEnv;
+                }
+                if (!string.IsNullOrEmpty(downloadFolderPath) && !RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+                    downloadFolderPath = downloadFolderPath.Split(":").LastOrDefault();
+                }
+                return downloadFolderPath;
+            }
+            set {
+                downloadFolderPath = value;
+            }
+        }
+
+        private string apiKeyName = "api_key";
         public string API_KEY_NAME {
             get {
                 string apiKeyNameEnv = GetEnvVar("API_KEY_NAME");
@@ -78,7 +197,7 @@ namespace bifeldy_sd3_lib_31.Models {
             }
         }
 
-        private string jwtSecret = null;
+        private string jwtSecret = "secret_rahasia";
         public string JWT_SECRET {
             get {
                 string jwtSecretEnv = GetEnvVar("JWT_SECRET");
@@ -92,7 +211,7 @@ namespace bifeldy_sd3_lib_31.Models {
             }
         }
 
-        private string jwtName = null;
+        private string jwtName = "jwt";
         public string JWT_NAME {
             get {
                 string jwtEnv = GetEnvVar("API_KEY_NAME");

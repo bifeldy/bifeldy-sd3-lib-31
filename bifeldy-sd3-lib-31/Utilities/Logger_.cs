@@ -13,9 +13,12 @@
  */
 
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+
+using bifeldy_sd3_lib_31.Models;
+
+using Microsoft.Extensions.Options;
 
 namespace bifeldy_sd3_lib_31.Utilities {
 
@@ -30,6 +33,8 @@ namespace bifeldy_sd3_lib_31.Utilities {
 
     public sealed class CLogger : ILogger {
 
+        private readonly Env _env;
+
         private readonly IApplication _app;
 
         public string LogInfoFolderPath { get; }
@@ -38,14 +43,16 @@ namespace bifeldy_sd3_lib_31.Utilities {
 
         public IProgress<string> LogInfoReporter = null;
 
-        public CLogger(IApplication app) {
+        public CLogger(IOptions<Env> env, IApplication app) {
+            _env = env.Value;
+
             _app = app;
 
-            LogInfoFolderPath = Path.Combine(_app.AppLocation, "Info_Logs");
+            LogInfoFolderPath = _env.INFO_LOG_PATH;
             if (!Directory.Exists(LogInfoFolderPath)) {
                 Directory.CreateDirectory(LogInfoFolderPath);
             }
-            LogErrorFolderPath = Path.Combine(_app.AppLocation, "Error_Logs");
+            LogErrorFolderPath = _env.ERROR_LOG_PATH;
             if (!Directory.Exists(LogErrorFolderPath)) {
                 Directory.CreateDirectory(LogErrorFolderPath);
             }
