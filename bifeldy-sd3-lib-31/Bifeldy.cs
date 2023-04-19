@@ -14,6 +14,12 @@
 using System;
 using System.Collections.Generic;
 
+using Helmet.Net.DontSniffMimetype;
+using Helmet.Net.FrameGuard;
+using Helmet.Net.HidePoweredByHeader;
+using Helmet.Net.IeNoOpen;
+using Helmet.Net.NoCache;
+using Helmet.Net.XssFilter;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -115,6 +121,15 @@ namespace bifeldy_sd3_lib_31 {
         }
 
         /* ** */
+
+        public static void UseHelmetMiddleware() {
+            // App.UseMiddleware<DontSniffMimetypeMiddleware>();
+            App.UseMiddleware<FrameGuardMiddleware>("SAMEORIGIN");
+            App.UseMiddleware<HidePoweredByHeaderMiddleware>();
+            App.UseMiddleware<IeNoOpenMiddleware>();
+            App.UseMiddleware<NoCacheMiddleware>();
+            App.UseMiddleware<XssFilterMiddleware>();
+        }
 
         public static void UseApiKeyMiddleware() {
             App.UseMiddleware<ApiKeyMiddleware>();
